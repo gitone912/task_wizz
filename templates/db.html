@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1 class="text-3xl font-bold mb-4">Task Prioritization from Database</h1>
+
+    <form method="post" action="{% url 'prioritize_tasks_from_db' %}">
+        {% csrf_token %}
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Prioritize Tasks from Database</button>
+    </form>
+
+    {% if prioritized_tasks %}
+        <h2 class="text-2xl font-bold mt-6 mb-4">Prioritized Tasks</h2>
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Task ID</th>
+                    <th class="py-2 px-4 border-b">Predicted Completion Time</th>
+                    <th class="py-2 px-4 border-b">Deadline</th>
+                    <th class="py-2 px-4 border-b">Dependencies</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in prioritized_tasks %}
+                    <tr class="border-b">
+                        <td class="py-2 px-4">{{ task.task_id }}</td>
+                        <td class="py-2 px-4">{{ task.predicted_completion_time }}</td>
+                        <td class="py-2 px-4">{{ task.deadline }}</td>
+                        <td class="py-2 px-4">{{ task.dependencies }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <!-- {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %} -->
+
+{% endblock %}

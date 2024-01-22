@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1 class="text-3xl font-bold mb-4">Task Prioritization</h1>
+
+    <form method="post" action="{% url 'prioritize_tasks' %}" class="mb-8">
+        {% csrf_token %}
+        <label for="tasks" class="block mb-2">Enter tasks:</label>
+        <textarea id="tasks" name="tasks" rows="4" cols="50" placeholder="Enter tasks in JSON format" class="w-full p-2 border border-gray-300 rounded"></textarea>
+        <br>
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded mt-2">Prioritize Tasks</button>
+    </form>
+
+    {% if prioritized_tasks %}
+        <h2 class="text-2xl font-bold mb-4">Prioritized Tasks</h2>
+        <ul class="list-disc ml-6">
+            {% for task in prioritized_tasks %}
+                <li class="mb-2"> Predicted Completion Time: {{ task.Predicted_Completion_Time }}, Deadline: {{ task.Deadline }}, Dependencies: {{ task.Dependencies }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %} -->
+
+{% endblock %}

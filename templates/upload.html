@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <div class="container">
+        <div class="text-center">
+            <img src="https://www.freeiconspng.com/thumbs/upload-documents-icon/orange-square-button-document-file-page-up-upload-icon-5.jpeg" alt="Upload Icon">
+            <h2 class="mb-4">Data Preprocessing Pipeline</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div style="margin-bottom: 10px;">
+                    <input type="file" name="csv_file" accept=".csv">
+                </div>
+                <div>
+                    <button type="submit" style="padding: 10px;">Preprocess Data</button>
+                </div>
+            </form>
+
+            {% if success %}
+                <div class="alert alert-success mt-4" role="alert">
+                    {{ success }}
+                </div>
+            {% endif %}
+            <br>
+            {% if download_link %}
+        <div class="mt-4">
+            <a href="{% url 'download_preprocessed_data' %}?file_path={{ download_link }}" class="btn btn-success" download>Download Preprocessed Data</a>
+        </div>
+    {% endif %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

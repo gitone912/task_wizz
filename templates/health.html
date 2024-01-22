@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+    <title>Mood Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <h1>Mood Analysis</h1>
+
+    <!-- Mood Analysis Bar Chart -->
+    <div style="width: 50%;">
+        <canvas id="moodChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Work Hours Line Chart -->
+    <div style="width: 50%;">
+        <canvas id="workHoursChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Idle Time Line Chart -->
+    <div style="width: 50%;">
+        <canvas id="idleTimeChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        // Mood Analysis Bar Chart
+        var moodCtx = document.getElementById('moodChart').getContext('2d');
+        var moodData = {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: 'Mood Analysis',
+                data: {{ values|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    // Add more colors as needed
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    // Add more colors as needed
+                ],
+                borderWidth: 1
+            }]
+        };
+        var moodOptions = {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+        var moodChart = new Chart(moodCtx, {
+            type: 'bar',
+            data: moodData,
+            options: moodOptions
+        });
+
+        // Work Hours Line Chart
+        var workHoursCtx = document.getElementById('workHoursChart').getContext('2d');
+        var workHoursData = {
+            labels: {{ dates|safe }},
+            datasets: [{
+                label: 'Work Hours',
+                data: {{ work_hours|safe }},
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        };
+        var workHoursOptions = {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+        var workHoursChart = new Chart(workHoursCtx, {
+            type: 'line',
+            data: workHoursData,
+            options: workHoursOptions
+        });
+
+        // Idle Time Line Chart
+        var idleTimeCtx = document.getElementById('idleTimeChart').getContext('2d');
+        var idleTimeData = {
+            labels: {{ dates|safe }},
+            datasets: [{
+                label: 'Idle Time',
+                data: {{ idle_time|safe }},
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        };
+        var idleTimeOptions = {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+        var idleTimeChart = new Chart(idleTimeCtx, {
+            type: 'line',
+            data: idleTimeData,
+            options: idleTimeOptions
+        });
+    </script>
+</body>
+</html>
+{% endblock %}
